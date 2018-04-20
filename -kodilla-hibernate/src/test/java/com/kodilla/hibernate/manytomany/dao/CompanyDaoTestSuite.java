@@ -62,20 +62,45 @@ public class CompanyDaoTestSuite {
         Assert.assertEquals("Software Machine", companyDao.retrieveCompanyWithFirstThreeLetters("sof").get(0).getName());
 
         //CleanUp
-   /*     try {
+        try {
             companyDao.delete(sofwareMachineId);
             companyDao.delete(dataMaestersId);
             companyDao.delete(greyMatterId);
         } catch (Exception e) {
             //do nothing
-        } */
+        }
     }
     @Test
     public void testCompanyFacade() throws SearchProcessingException {
         //Given
+        Employee johnSmith = new Employee("John", "Smith");
+        Employee stephanieClarckson = new Employee("Stephanie", "Clarckson");
+        Employee lindaKovalski = new Employee("Linda", "Kovalski");
+
+        Company softwareMachine = new Company("Software Machine");
+        Company dataMaesters = new Company("Data Maesters");
+        Company greyMatter = new Company("Grey Matter");
+
+        softwareMachine.getEmployees().add(johnSmith);
+        dataMaesters.getEmployees().add(stephanieClarckson);
+        dataMaesters.getEmployees().add(lindaKovalski);
+        greyMatter.getEmployees().add(johnSmith);
+        greyMatter.getEmployees().add(lindaKovalski);
+
+        johnSmith.getCompanies().add(softwareMachine);
+        johnSmith.getCompanies().add(greyMatter);
+        stephanieClarckson.getCompanies().add(dataMaesters);
+        lindaKovalski.getCompanies().add(dataMaesters);
+        lindaKovalski.getCompanies().add(greyMatter);
+        //When
         int employeesQuantity;
         int companiesQuantity;
-        //When
+        companyDao.save(softwareMachine);
+        int sofwareMachineId = softwareMachine.getId();
+        companyDao.save(dataMaesters);
+        int dataMaestersId = softwareMachine.getId();
+        companyDao.save(greyMatter);
+        int greyMatterId = greyMatter.getId();
         try {
             List<Employee> employeesResult = companyFacade.getEmployeesByLastName("%val%");
             List<Company> companiesResult = companyFacade.getCompanyByName("%Ma%");
@@ -91,5 +116,13 @@ public class CompanyDaoTestSuite {
         //Then
         Assert.assertEquals(1, employeesQuantity);
         Assert.assertEquals(3, companiesQuantity);
+        //CleanUp
+        try {
+            companyDao.delete(sofwareMachineId);
+            companyDao.delete(dataMaestersId);
+            companyDao.delete(greyMatterId);
+        } catch (Exception e) {
+            //do nothing
+        }
     }
 }
