@@ -1,6 +1,7 @@
 package com.kodilla.patterns2.facade;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.EnableAspectJAutoProxy;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
@@ -10,6 +11,7 @@ import java.util.List;
 import java.util.Random;
 
 @Service
+@EnableAspectJAutoProxy
 public class ShopService {
     private final List<Order> orders = new ArrayList<>();
 
