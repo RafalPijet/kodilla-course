@@ -10,22 +10,31 @@ import java.util.Map;
 import java.util.Set;
 
 public class MedianAdapter extends MedianAdaptee implements Classifier {
-    private Map<BookSignature, BookB> bookBMap = new HashMap<>();
+    private int medianCounter = 0;
+    private int averageCounter = 0;
     @Override
     public int publicationYearMedian(Set<BookA> bookASet) {
+        Map<BookSignature, BookB> bookBMap = new HashMap<>();
         for (BookA bookA : bookASet) {
             bookBMap.put(new BookSignature(bookA.getSignature()), new BookB(bookA.getAuthor(), bookA.getTitle(), bookA.getPublicationYear()));
+            medianCounter++;
         }
         return medianPublicationYear(bookBMap);
     }
     public int publicationYearAverage(Set<BookA> bookASet) {
+        Map<BookSignature, BookB> bookBMap = new HashMap<>();
         for (BookA bookA : bookASet) {
             bookBMap.put(new BookSignature(bookA.getSignature()), new BookB(bookA.getAuthor(), bookA.getTitle(), bookA.getPublicationYear()));
+            averageCounter++;
         }
         return averagePublicationYear(bookBMap);
     }
 
-    public Map<BookSignature, BookB> getBookBMap() {
-        return bookBMap;
+    public int getMedianCounter() {
+        return medianCounter;
+    }
+
+    public int getAverageCounter() {
+        return averageCounter;
     }
 }

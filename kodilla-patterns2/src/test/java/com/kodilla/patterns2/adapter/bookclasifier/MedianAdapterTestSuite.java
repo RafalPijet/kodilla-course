@@ -20,7 +20,7 @@ public class MedianAdapterTestSuite {
         //When
         MedianAdapter medianAdapter = new MedianAdapter();
         int result = medianAdapter.publicationYearMedian(bookASet);
-        int quantityBooks = medianAdapter.getBookBMap().size();
+        int quantityBooks = medianAdapter.getMedianCounter();
         //Then
         assertEquals(6, quantityBooks);
         assertEquals(2007, result);
@@ -37,7 +37,7 @@ public class MedianAdapterTestSuite {
         //When
         MedianAdapter medianAdapter = new MedianAdapter();
         int result = medianAdapter.publicationYearMedian(bookASet);
-        int quantityBooks = medianAdapter.getBookBMap().size();
+        int quantityBooks = medianAdapter.getMedianCounter();
         //Then
         assertEquals(5, quantityBooks);
         assertEquals(2006, result);
@@ -55,7 +55,7 @@ public class MedianAdapterTestSuite {
         //When
         MedianAdapter medianAdapter = new MedianAdapter();
         int result = medianAdapter.publicationYearAverage(bookASet);
-        int quantityBooks = medianAdapter.getBookBMap().size();
+        int quantityBooks = medianAdapter.getAverageCounter();
         //Then
         assertEquals(6, quantityBooks);
         assertEquals(2005, result);
