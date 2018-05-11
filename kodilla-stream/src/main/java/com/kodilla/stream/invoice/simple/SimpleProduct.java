@@ -3,7 +3,7 @@ package com.kodilla.stream.invoice.simple;
 import java.util.Objects;
 
 public final class SimpleProduct {
-    private final String productName;
+    private String productName;
     private final double productPrice;
 
     public SimpleProduct(final String productName, final double productPrice) {
