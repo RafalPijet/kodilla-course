@@ -5,10 +5,13 @@ import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
+import org.openqa.selenium.Alert;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.Select;
+import org.openqa.selenium.support.ui.WebDriverWait;
 
 import java.util.Random;
 import java.util.stream.Collectors;
@@ -68,6 +71,15 @@ public class CrudAppTestSuite {
 
                     WebElement buttonCreateCard = anyForm.findElement(By.xpath(".//button[contains(@class, \"card-creation\")]"));
                     buttonCreateCard.click();
+                    WebDriverWait wait = new WebDriverWait(driver, 5);
+                            wait.until(ExpectedConditions.alertIsPresent());
+                            Alert alert = driver.switchTo().alert();
+                            alert.accept();
+                    try {
+                        Thread.sleep(2000);
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
                 });
         Thread.sleep(5000);
     }
@@ -82,13 +94,18 @@ public class CrudAppTestSuite {
         driverTrello.findElement(By.id("password")).sendKeys("TechnoParty2204");
         driverTrello.findElement(By.id("login")).click();
 
-        Thread.sleep(2000);
+        Thread.sleep(5000);
+
+        driverTrello.findElement(By.xpath("//div[@class=\"home-tab\"]")).click();
+
+        Thread.sleep(5000);
+
 
         driverTrello.findElements(By.xpath("//a[@class=\"board-tile\"]")).stream()
                 .filter(aHref -> aHref.findElements(By.xpath(".//span[@title=\"Kodilla Appliication\"]")).size() > 0)
                 .forEach(aHref -> aHref.click());
 
-        Thread.sleep(2000);
+        Thread.sleep(5000);
 
         result = driverTrello.findElements(By.xpath("//span")).stream()
                 .filter(theSpan -> theSpan.getText().contains(taskName))

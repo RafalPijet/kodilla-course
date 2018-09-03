@@ -140,15 +140,16 @@ public class BoardTestSuite {
     public void testAddTaskListAverageWorkingOnTask() {
         //Give
         Board project = prepareTestData();
-
         //When
         System.out.println("Moduł 7.6 zadanie: Średnia ilości dni realizacji zadania:\n");
         List<TaskList> tasksInProgress = new ArrayList<>();
         tasksInProgress.add(new TaskList("In progress"));
+
         int daysQuantity = project.getTaskLists().stream()
                 .filter(tasksInProgress::contains)
                 .flatMap(taskList -> taskList.getTasks().stream())
-                .map(task -> LocalDate.now().compareTo(task.getCreated()))
+                //.map(task -> LocalDate.now().compareTo(task.getCreated()))
+                .map(task -> Math.abs(LocalDate.now().until(task.getCreated()).getDays()))
                 .reduce(0, (sum, current) -> sum = sum + current);
         long tasksQuantity = project.getTaskLists().stream()
                 .filter(tasksInProgress::contains)
@@ -159,25 +160,18 @@ public class BoardTestSuite {
         System.out.println("Ilość zadań w trakcie realizacji --> " + tasksQuantity);
         System.out.println("Średnia ilość dni realizacji zadania --> " + averageDays);
         System.out.println();
-        OptionalDouble tasks = project.getTaskLists().stream()
+        List<Task> tasks = project.getTaskLists().stream()
                 .filter(tasksInProgress::contains)
                 .flatMap(taskList -> taskList.getTasks().stream())
-                .mapToInt(t -> LocalDate.now().compareTo(t.getCreated()))
-        //OptionalDouble result = IntStream.range(0, tasks.size())
-               // .map(t -> LocalDate.now().compareTo(tasks.get(t).getCreated())
+                .collect(toList());
+        OptionalDouble result = IntStream.range(0, tasks.size())
+                .map(t -> Math.abs(LocalDate.now().until(tasks.get(t).getCreated()).getDays()))
                 .average();
-        double averageWithAverageMethod = tasks.getAsDouble();
-
+        double averageWithAverageMethod = result.getAsDouble();
         System.out.println("Średnia liczona metodą average() --> " + averageWithAverageMethod);
-
         //Then
         Assert.assertEquals(10, averageDays, 0.001);
         Assert.assertEquals(10, averageWithAverageMethod, 0.001);
-
-
-
     }
-
-
 
 }
